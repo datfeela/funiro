@@ -1,0 +1,21 @@
+::selection {
+    color: #555555;
+    background-color: #f8d5bb;
+}
+
+body {
+    color: $mainFontColor;
+    font-family: "Gilroy", sans-serif;
+    font-size: 16px;
+}
+//
+
+.title {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 120%;
+
+    @media screen and (max-width: 900px) {
+        font-size: calc(24px + 16 * (100vw - 320px) / (900 - 320));
+    }
+}

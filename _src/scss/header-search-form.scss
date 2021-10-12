@@ -1,0 +1,64 @@
+.search-form {
+    @media screen and (max-width: 992px) {
+        &._active {
+            .search-form__item {
+                opacity: 1;
+                top: 100%;
+            }
+
+            > .search-form__button > .search-form__icon {
+                fill: $orangeColor;
+            }
+        }
+    }
+
+    &__button {
+        flex: 0 0 45px;
+        height: 45px;
+    }
+
+    &__button_lowres {
+        display: none;
+        & > .search-form__icon {
+            fill: #262f56;
+            height: 20px;
+            width: 20px;
+        }
+
+        @media screen and (max-width: 992px) {
+            display: block;
+        }
+    }
+
+    &__icon {
+        height: 16px;
+        width: 16px;
+        fill: #333333;
+    }
+
+    &__item {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+
+        @media screen and (max-width: 992px) {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            opacity: 0;
+            top: -100%;
+            transition: all 0.3s ease 0s;
+        }
+    }
+
+    &__input {
+        width: 100%;
+        font-size: 14px;
+        color: $mainFontColor;
+        padding-right: 20px;
+
+        &::placeholder {
+            color: #616161;
+        }
+    }
+}

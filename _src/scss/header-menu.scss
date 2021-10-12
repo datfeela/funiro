@@ -1,0 +1,175 @@
+.menu {
+    flex: 0 1 420px;
+    padding: 0px 10px;
+
+    @media screen and (max-width: 768px) {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        top: 50px;
+        right: -100%;
+        background-color: #fcf8f3;
+        transition: all 0.3s ease 0s;
+        padding: 0px 0px 60px 0px;
+
+        &._active {
+            right: 0;
+        }
+    }
+
+    &__body {
+        @media screen and (max-width: 768px) {
+            margin-top: 15px;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 5px 0px;
+        margin: 0px 3px;
+        position: relative;
+        @media screen and (min-width: 769px) {
+            @media (any-hover: hover) {
+                &:hover {
+                    .menu__sub-list {
+                        transform: translate(0px, 0px);
+                        opacity: 1;
+                        z-index: 2;
+                        visibility: visible;
+                        pointer-events: auto;
+                    }
+                    .menu__arrow-icon {
+                        transform: rotate(-180deg);
+                        fill: $orangeColor;
+                    }
+                    .menu__dropdown {
+                        cursor: pointer;
+                        color: $orangeColor;
+                    }
+                    .menu__link {
+                        color: $orangeColor;
+                    }
+                }
+            }
+            &._hover {
+                .menu__sub-list {
+                    transform: translate(0px, 0px);
+                    opacity: 1;
+                    z-index: 2;
+                    visibility: visible;
+                    pointer-events: auto;
+                }
+                .menu__arrow-icon {
+                    transform: rotate(-180deg);
+                    fill: $orangeColor;
+                }
+                .menu__dropdown {
+                    cursor: pointer;
+                    color: $orangeColor;
+                }
+                .menu__link {
+                    color: $orangeColor;
+                }
+            }
+        }
+        @media screen and (max-width: 768px) {
+            background-color: #f9f1e7;
+            margin: 0px 0px 15px 0px;
+            padding: 5px 10px;
+            &:last-child {
+                margin: 0px;
+            }
+        }
+    }
+
+    &__link,
+    &__dropdown {
+        color: $mainFontColor;
+        font-weight: 500;
+        line-height: 24 / 16 * 100%;
+        transition: color 0.3s ease 0s;
+        @media screen and (max-width: 768px) {
+            font-size: 1.5em;
+        }
+    }
+
+    &__arrow {
+        margin: 0px 0px 0px 8px;
+        transition: all 0.3s ease 0s;
+        @media screen and (max-width: 768px) {
+            padding: 5px 10px;
+
+            &._active {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    &__arrow-icon {
+        height: 9px;
+        width: 14px;
+        fill: $mainFontColor;
+        transition: all 0.4s ease 0s;
+    }
+
+    &__sub-list {
+        position: relative;
+        background-color: $orangeColor;
+        padding: 15px;
+        flex: 1 1 100%;
+
+        opacity: 0;
+        transition: all 0.3s ease 0s;
+        transform: translate(0px, 10px);
+        visibility: hidden;
+        min-width: 200px;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        pointer-events: none; // *для работы hover только на устройствах с мышью
+
+        @media (max-width: 768px) {
+            display: none;
+            transition: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            z-index: 10;
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+            background-color: $beigeColor;
+        }
+    }
+
+    &__sub-item {
+        &:not(:last-child) {
+            margin: 0px 0px 10px 0px;
+        }
+    }
+
+    &__sub-link {
+        color: #fff;
+        line-height: 120%;
+        &:hover {
+            text-decoration: underline;
+        }
+        @media screen and (max-width: 768px) {
+            font-size: 1.5em;
+            color: $mainFontColor;
+        }
+    }
+}
