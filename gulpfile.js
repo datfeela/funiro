@@ -25,7 +25,7 @@ const source_folder = "_src";
 
 const path = {
     build: {
-        html: project_folder + "/html/",
+        html: project_folder + "/",
         js: project_folder + "/js/",
         css: project_folder + "/css/",
         images: project_folder + "/img/",
@@ -34,7 +34,7 @@ const path = {
         json: project_folder + "/json/",
     },
     src: {
-        html: [source_folder + "/html/*.html", "!" + source_folder + "/html/_*.html"],
+        html: [source_folder + "/*.html", "!" + source_folder + "/_*.html"],
         js: [source_folder + "/js/index.js", source_folder + "/js/vendors.js"],
         css: source_folder + "/scss/index.scss",
         images: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}", // ["!**/favicon.*"]
