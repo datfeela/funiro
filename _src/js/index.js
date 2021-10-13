@@ -234,14 +234,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
             this.activeDot = document.querySelector(`.controls-${this.sliderName}__dot_${this.sliderPos + 1}`);
             this.activeDot.classList.add("_active");
             this.blockButtons();
-            console.log("this.sliderPos: ", this.sliderPos);
         }
 
         changeActiveSlide() {
             this.activePage.classList.remove("_active");
             this.activePage = document.getElementById(`${this.sliderName}-page-${this.sliderPos * this.slidesPerSwipe + 1}`);
             this.activePage.classList.add("_active");
-            console.log("this.activePage: ", this.activePage);
         }
 
         blockButtons() {
@@ -928,7 +926,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             deleteButton.onclick = () => {
                 document.querySelectorAll(".product._added").forEach((element) => {
                     element.classList.remove("_added");
-                    console.log(element);
                 });
 
                 // event.preventDefault();
