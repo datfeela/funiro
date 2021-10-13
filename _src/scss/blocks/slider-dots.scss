@@ -1,0 +1,38 @@
+.slider-dots {
+    height: 48px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto;
+    grid-auto-flow: column;
+    grid-column-gap: 20px;
+
+    @media screen and (max-width: 1200px) {
+        margin-left: 5px;
+    }
+
+    &__dot {
+        width: 11px;
+        height: 11px;
+        position: relative;
+        background-color: #d8d8d8;
+        border-radius: 50%;
+        transition: all 0.5s ease;
+        &._active {
+            background-color: $orangeColor;
+            &::after {
+                content: "";
+                position: absolute;
+                left: -8px;
+                top: -8px;
+                display: block;
+                height: 27px;
+                width: 27px;
+                border: 1px solid $orangeColor;
+                border-radius: 50%;
+            }
+        }
+        &:hover {
+            background-color: #e89f73;
+        }
+    }
+}

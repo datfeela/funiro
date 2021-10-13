@@ -1,0 +1,43 @@
+.main {
+    background-color: #fcf8f3;
+    max-width: $maxWidth;
+    margin: 0 auto;
+    padding-top: 85px;
+
+    @media screen and (max-width: 992px) {
+        padding-top: 70px;
+    }
+
+    @media screen and (max-width: 768px) {
+        padding-top: 45px;
+    }
+
+    // .main__slider
+
+    &__slider {
+        width: 100%;
+        max-width: $maxWidth;
+        margin: 0 auto;
+    }
+
+    // .main__advantages
+
+    &__advantages {
+        background-color: #fff;
+    }
+
+    // .main__products
+
+    &__products {
+    }
+
+    // .main__rooms
+
+    &__rooms {
+    }
+
+    // .main__tips
+
+    &__tips {
+    }
+}

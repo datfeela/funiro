@@ -1,0 +1,303 @@
+.footer {
+    color: #616161;
+
+    //.footer__wrapper
+
+    &__wrapper {
+        max-width: $maxContainerWidth;
+        padding: 0px 15px;
+        margin: 0 auto;
+    }
+
+    // .footer__body
+
+    &__body {
+        padding: 80px 0px 50px 0px;
+        border-top: 1px solid #d8d8d8;
+        display: grid;
+        grid-template-columns: auto;
+        grid-auto-flow: column;
+        grid-column-gap: 80px;
+
+        @media screen and (max-width: 1270px) {
+            padding-top: calc(10px + 70 * ((100vw - 320px) / (1270 - 320)));
+            padding-bottom: calc(10px + 30 * ((100vw - 320px) / (1270 - 320)));
+            grid-column-gap: calc(20px + 60 * ((100vw - 992px) / (1270 - 992)));
+        }
+
+        @media screen and (max-width: 992px) {
+            grid-auto-flow: initial;
+            grid-template-areas:
+                "contacts contacts contacts contacts"
+                "menu account socials feedback";
+            grid-row-gap: 15px;
+        }
+        @media screen and (max-width: 768px) {
+            grid-template-columns: (repeat(6, 1fr));
+            grid-template-areas:
+                "contacts contacts contacts feedback feedback feedback"
+                "menu menu account account socials socials";
+        }
+        @media screen and (max-width: 576px) {
+            grid-template-areas: unset;
+            grid-template-columns: 1fr;
+        }
+    }
+
+    //.footer__block
+
+    &__block {
+        &:not(:last-child) {
+            padding: 0px 10px 0px 0px;
+        }
+        @media screen and (max-width: 576px) {
+            &._active {
+                .footer__title {
+                    color: $orangeColor;
+                }
+                .footer__arrow {
+                    transform: rotate(-180deg);
+                }
+                .footer__arrow-icon {
+                    fill: $orangeColor;
+                }
+            }
+        }
+    }
+
+    // .footer__contacts
+
+    &__contacts {
+        display: grid;
+        grid-template-rows: 45px auto auto;
+        @media screen and (min-width: 577px) and (max-width: 992px) {
+            grid-area: contacts;
+        }
+    }
+
+    // .footer__logo
+
+    &__logo {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: calc(29 / 24 * 100%);
+        color: #000;
+    }
+
+    // .footer__desc
+
+    &__desc {
+        line-height: calc(24 / 16 * 100%);
+    }
+
+    // .footer__contacts-info
+
+    &__contacts-info {
+    }
+
+    // .footer__menu
+
+    &__menu {
+        @media screen and (min-width: 577px) and (max-width: 992px) {
+            grid-area: menu;
+        }
+    }
+
+    // .footer__title
+
+    &__title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: calc(29 / 24 * 100%);
+        color: #000;
+        display: flex;
+        align-items: center;
+    }
+
+    // .footer__arrow
+
+    &__arrow {
+        margin: 2px 0 0 8px;
+        transition: all 0.3s ease 0s;
+        display: none;
+        @media screen and(max-width: 576px) {
+            display: inline-block;
+            // &._active {
+            //     transform: rotate(-180deg);
+            // }
+        }
+    }
+
+    // .footer__arrow-icon
+
+    &__arrow-icon {
+        height: 9px;
+        width: 14px;
+        fill: $mainFontColor;
+        transition: all 0.4s ease 0s;
+    }
+
+    // .footer__list
+
+    &__list {
+        display: grid;
+        grid-template-rows: auto;
+        @media screen and(max-width: 576px) {
+            display: none;
+        }
+    }
+
+    // .footer__list-item
+
+    &__list-item {
+        line-height: calc(24 / 16 * 100%);
+        margin-top: 16px;
+    }
+
+    // .footer__link
+
+    &__link {
+        color: #616161;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    // .footer__account
+
+    &__account {
+        @media screen and (min-width: 577px) and (max-width: 992px) {
+            grid-area: account;
+        }
+    }
+
+    // .footer__socials
+
+    &__socials {
+        @media screen and (min-width: 577px) and (max-width: 992px) {
+            grid-area: socials;
+        }
+    }
+
+    // .footer__feedback
+
+    &__feedback {
+        @media screen and (min-width: 577px) and (max-width: 992px) {
+            grid-area: feedback;
+        }
+    }
+}
+
+.contacts-footer {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto;
+    grid-auto-flow: row;
+    align-items: end;
+
+    // .contacts-footer__item
+
+    &__item {
+        color: #616161;
+        margin-top: 16px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        // .contacts-footer__item_location
+
+        &_location {
+        }
+
+        // .contacts-footer__item_phone-num
+
+        &_phone-num {
+        }
+
+        // .contacts-footer__item_url
+
+        &_url {
+        }
+    }
+
+    // .contacts-footer__icon
+
+    &__icon {
+        height: 16px;
+        width: 16px;
+        margin-right: 8px;
+        fill: #898989;
+    }
+
+    // .contacts-footer__location
+
+    &__location {
+    }
+
+    // .contacts-footer__phone-num
+
+    &__phone-num {
+    }
+}
+
+.feedback {
+    // .feedback__title
+
+    &__title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: calc(29 / 24 * 100%);
+        color: #000;
+    }
+
+    // .feedback__form
+
+    &__form {
+        margin: 16px 0px 0px 0px;
+        height: 45px;
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+    }
+
+    // .feedback__input
+
+    &__input {
+        background-color: #f4f5f7;
+        flex: 1 2 auto;
+        height: 45px;
+        margin: 0px 4px 0px 0px;
+        padding: 0px 0px 0px 12px;
+        font-size: 16px;
+
+        &::placeholder {
+            // padding: 0px 0px 0px 12px;
+            font-size: 16px;
+            color: #828282;
+        }
+    }
+
+    // .feedback__button
+
+    &__button {
+        height: 45px;
+        width: 45px;
+        background-color: #e89f71;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    // .feedback__icon
+
+    &__icon {
+        height: 18px;
+        width: 18px;
+        fill: #fff;
+    }
+}
