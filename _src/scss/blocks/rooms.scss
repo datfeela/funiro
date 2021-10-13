@@ -290,11 +290,6 @@
                 height: calc(349px + 233 * (100vw - 320px) / (992 - 320));
             }
 
-            @media screen and (max-width: 992px) {
-                width: inherit;
-                height: inherit;
-            }
-
             @media screen and (max-width: 480px) {
                 width: 283px;
                 height: 351px;

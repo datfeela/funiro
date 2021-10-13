@@ -1,8 +1,39 @@
 "use strict";
-@@include('variables.js');
+// @@include('variables.js');
+const isMobile = {
+    Android: function () {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function () {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function () {
+        return isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows();
+    },
+};
+
+let checkStartTime = new Date().getTime()
+console.log('henlo, ', checkStartTime);
+
+window.onload = function () {
+    let loadEndTime = new Date().getTime();
+    console.log('window loaded, ', loadEndTime);
+    console.log('time diff: ', loadEndTime - checkStartTime);
+}
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    console.log("DOM loaded");
+    let checkEndTime = new Date().getTime();
+    console.log("DOM loaded, ", checkEndTime);
+    console.log('time diff: ', checkEndTime - checkStartTime);
 
     document.addEventListener("click", (event) => {
         const targetElement = event.target;
@@ -469,6 +500,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         roomsSlider.swipeLeft();
     });
     roomsSlider.dots.addEventListener("click", (event) => {
+        roomsSlider.unlockAnimations();
         roomsSlider.swipeOnDot(event);
     });
 
@@ -708,26 +740,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 <div class="popup-product__actions">
                     <a href="" class="popup-product__button">Add to cart</a>
                     <a href="${productShareUrl}" class="popup-product__link">
-                        <svg
-                            class="popup-product__icon popup-product__icon_share"
-                            viewBox="0 0 18 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M15 14C14.212 14 13.5 14.31 12.966 14.807L5.91 10.7C5.96 10.47 6 10.24 6 10C6 9.76 5.96 9.53 5.91 9.3L12.96 5.19C13.5 5.69 14.21 6 15 6C16.66 6 18 4.66 18 3C18 1.34 16.66 0 15 0C13.34 0 12 1.34 12 3C12 3.24 12.04 3.47 12.09 3.7L5.04 7.81C4.5 7.31 3.79 7 3 7C1.34 7 0 8.34 0 10C0 11.66 1.34 13 3 13C3.79 13 4.5 12.69 5.04 12.19L12.088 16.308C12.0317 16.5344 12.0022 16.7667 12 17C12 17.5933 12.1759 18.1734 12.5056 18.6667C12.8352 19.1601 13.3038 19.5446 13.8519 19.7716C14.4001 19.9987 15.0033 20.0581 15.5853 19.9424C16.1672 19.8266 16.7018 19.5409 17.1213 19.1213C17.5409 18.7018 17.8266 18.1672 17.9424 17.5853C18.0581 17.0033 17.9987 16.4001 17.7716 15.8519C17.5446 15.3038 17.1601 14.8352 16.6667 14.5056C16.1734 14.1759 15.5933 14 15 14Z"
-                            />
+                        <svg class="popup-product__icon popup-product__icon_share">
+                            <use xlink:href="#share"></use>
                         </svg>
                         <span class="popup-product__text">Share</span>
                     </a>
                     <button class="popup-product__like-button">
-                        <svg
-                            class="popup-product__icon popup-product__icon_like"
-                            viewBox="0 0 24 21"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M11.9996 18.0226C7.35982 15.3882 4.76416 12.7626 3.50744 10.4739C2.22425 8.13698 2.3302 6.15452 3.05171 4.73901C4.52988 1.83903 8.73571 0.911189 11.2936 4.14628L11.9995 5.03912L12.7055 4.14632C15.2638 0.911117 19.4699 1.83909 20.948 4.73901C21.6695 6.1545 21.7754 8.13695 20.4921 10.4738C19.2353 12.7626 16.6395 15.3882 11.9996 18.0226ZM11.9996 2.24511C8.5199 -1.14383 3.33722 0.215237 1.44802 3.92158C0.419533 5.93934 0.400427 8.55527 1.92965 11.3402C3.44655 14.1028 6.47805 17.0306 11.5642 19.8418L11.9996 20.0825L12.4349 19.8419C17.5213 17.0307 20.5529 14.1028 22.0699 11.3403C23.5992 8.55529 23.5802 5.93935 22.5517 3.92158C20.6625 0.215172 15.4796 -1.14379 11.9996 2.24511Z"
-                            />
+                        <svg class="popup-product__icon popup-product__icon_like">
+                            <use xlink:href="#favorite"></use>
                         </svg>
                         <span class="popup-product__text">Like</span>
                     </button>
@@ -804,19 +824,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 <button class="quantity-cart__button quantity-cart__button_plus">+</button>
                 </div>
                 <button class="item-cart__delete-button">
-                    <svg class="item-cart__icon" viewBox="-40 0 427 427.00131" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="m232.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"
-                        />
-                        <path
-                            d="m114.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"
-                        />
-                        <path
-                            d="m28.398438 127.121094v246.378906c0 14.5625 5.339843 28.238281 14.667968 38.050781 9.285156 9.839844 22.207032 15.425781 35.730469 15.449219h189.203125c13.527344-.023438 26.449219-5.609375 35.730469-15.449219 9.328125-9.8125 14.667969-23.488281 14.667969-38.050781v-246.378906c18.542968-4.921875 30.558593-22.835938 28.078124-41.863282-2.484374-19.023437-18.691406-33.253906-37.878906-33.257812h-51.199218v-12.5c.058593-10.511719-4.097657-20.605469-11.539063-28.03125-7.441406-7.421875-17.550781-11.5546875-28.0625-11.46875h-88.796875c-10.511719-.0859375-20.621094 4.046875-28.0625 11.46875-7.441406 7.425781-11.597656 17.519531-11.539062 28.03125v12.5h-51.199219c-19.1875.003906-35.394531 14.234375-37.878907 33.257812-2.480468 19.027344 9.535157 36.941407 28.078126 41.863282zm239.601562 279.878906h-189.203125c-17.097656 0-30.398437-14.6875-30.398437-33.5v-245.5h250v245.5c0 18.8125-13.300782 33.5-30.398438 33.5zm-158.601562-367.5c-.066407-5.207031 1.980468-10.21875 5.675781-13.894531 3.691406-3.675781 8.714843-5.695313 13.925781-5.605469h88.796875c5.210937-.089844 10.234375 1.929688 13.925781 5.605469 3.695313 3.671875 5.742188 8.6875 5.675782 13.894531v12.5h-128zm-71.199219 32.5h270.398437c9.941406 0 18 8.058594 18 18s-8.058594 18-18 18h-270.398437c-9.941407 0-18-8.058594-18-18s8.058593-18 18-18zm0 0"
-                        />
-                        <path
-                            d="m173.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"
-                        />
+                    <svg class="item-cart__icon">
+                        <use xlink:href="#delete"></use>
                     </svg>
                 </button>
                 `

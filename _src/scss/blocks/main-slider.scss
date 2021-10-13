@@ -1,5 +1,4 @@
 .main-slider {
-    height: 619px;
     background-color: #fcf8f3;
     padding-top: 16px;
     position: relative;
@@ -25,7 +24,6 @@
     // .main-slider__container
 
     &__container {
-        height: 100%;
         overflow: hidden;
         z-index: 2;
 
@@ -149,9 +147,11 @@
 
 .slider-main {
     width: 934px;
+    height: calc(553px + 70px + 10px);
 
     @media screen and (max-width: 1200px) {
         width: calc(290px + 644 * (100vw - 320px) / (1200 - 320));
+        height: auto;
     }
 
     @media screen and (max-width: 768px) {
@@ -306,6 +306,8 @@
     // .page-slider__image
 
     &__image {
+        width: 934px;
+        height: 553px;
         @media screen and (max-width: 1200px) {
             width: calc(290px + 644 * (100vw - 320px) / (1200 - 320));
         }
