@@ -654,8 +654,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     }
 
-    prekol();
-
     function loadProducts(data, button) {
         const productsItems = document.querySelector(".products__items");
         if (count >= data.products.length) {
@@ -669,6 +667,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             const productId = item.id;
             const productImage = item.image;
+            const imageSrc = 'https://datfeela.github.io/funiro/';
             const productTitle = item.title;
             const productText = item.text;
             const productPrice = item.price;
@@ -695,7 +694,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
 
             let productTemplateImage = `
-            <img class="product__image" src="${productImage}" alt="${productTitle}" />
+            <img class="product__image" src="${imageSrc}${productImage}" alt="${productTitle}" />
             `;
 
             let productTemplateContent = "";
