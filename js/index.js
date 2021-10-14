@@ -658,7 +658,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         fetch('https://jsonplaceholder.typicode.com/todos/1')
             .then(response => response.json())
             .then(json => console.log(json))
-        let response = fetch(file, { method: "GET" });
+        let response = fetch("../json/products.json", { method: "GET" });
         if (response.ok) {
             let result = response.json();
             console.log(result);
