@@ -658,7 +658,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         fetch('https://jsonplaceholder.typicode.com/todos/1')
             .then(response => response.json())
             .then(json => console.log(json))
-        fetch("../json/products.json")
+        fetch("https://datfeela.github.io/funiro/json/products.json")
             .then(response => response.json())
             .then(json => console.log(json))
     }
