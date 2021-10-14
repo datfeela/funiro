@@ -642,7 +642,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     async function getProducts(button) {
         if (!button.classList.contains("_hold")) {
             button.classList.add("_hold");
-            const file = "../json/products.json";
+            const file = "https://datfeela.github.io/funiro/json/products.json";
             let response = await fetch(file, { method: "GET" });
             if (response.ok) {
                 let result = await response.json();
@@ -652,15 +652,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 alert("something went wrong...");
             }
         }
-    }
-
-    function prekol() {
-        fetch('https://jsonplaceholder.typicode.com/todos/1')
-            .then(response => response.json())
-            .then(json => console.log(json))
-        fetch("https://datfeela.github.io/funiro/json/products.json")
-            .then(response => response.json())
-            .then(json => console.log(json))
     }
 
     prekol();
