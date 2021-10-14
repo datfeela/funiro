@@ -5,7 +5,7 @@
     "main": "index.html",
     "homepage": "https://datfeela.github.io/funiro/",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "deploy": "gulp build && gh-pages -d dist"
     },
     "author": "",
     "license": "ISC",
@@ -31,5 +31,8 @@
         "gulp-webp-html": "^1.0.2",
         "imagemin": "^8.0.1",
         "sass": "latest"
+    },
+    "dependencies": {
+        "gh-pages": "^3.2.3"
     }
 }
