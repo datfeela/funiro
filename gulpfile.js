@@ -19,6 +19,8 @@ const webp = require("imagemin-webp"),
 const ttf2woff = require("gulp-ttf2woff"),
     ttf2woff2 = require("gulp-ttf2woff2");
 
+const ghPages = require('gulp-gh-pages');
+
 
 const project_folder = "dist";
 const source_folder = "_src";
@@ -52,6 +54,13 @@ const path = {
     clean: "./" + project_folder + "/",
 
 };
+
+//tasks
+
+gulp.task('deploy', function () {
+    return gulp.src('./dist/**/*')
+        .pipe(ghPages());
+});
 
 //functions
 function browserSync(done) {
