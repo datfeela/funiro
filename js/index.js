@@ -694,7 +694,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
 
             let productTemplateImage = `
-            <img class="product__image" src="${imageSrc}${productImage}" alt="${productTitle}" />
+            <img class="product__image" src="${productImage}" alt="${productTitle}" />
             `;
 
             let productTemplateContent = "";
