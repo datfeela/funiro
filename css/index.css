@@ -2149,6 +2149,7 @@ body {
 
   .page-slider__image {
     width: calc(290px + 644 * (100vw - 320px) / 880);
+    height: auto;
   }
 
   .advantages {
