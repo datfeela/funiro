@@ -643,8 +643,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!button.classList.contains("_hold")) {
             button.classList.add("_hold");
             const file = "../json/products.json";
+            // const file = "https://datfeela.github.io/funiro/json/products.json";
             let response = await fetch(file, { method: "GET" });
-            console.log(response.status);
             if (response.ok) {
                 let result = await response.json();
                 loadProducts(result, button);
