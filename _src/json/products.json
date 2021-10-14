@@ -15,7 +15,7 @@
                     "value": "-10%"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "4.500.000",
             "priceOld": "5.000.000",
             "shareUrl": ""
@@ -31,7 +31,7 @@
                     "value": "-30%"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "6.000.000",
             "priceOld": "10.000.000",
             "shareUrl": ""
@@ -47,7 +47,7 @@
                     "value": "-40%"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "4.500.000",
             "priceOld": "7.500.000",
             "shareUrl": ""
@@ -58,7 +58,7 @@
             "title": "Lorem.",
             "text": "Lorem ipsum dolor.",
             "labels": "",
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "3.500.000",
             "priceOld": "",
             "shareUrl": ""
@@ -74,7 +74,7 @@
                     "value": "-50%"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "3.000.000",
             "priceOld": "6.000.000",
             "shareUrl": ""
@@ -85,7 +85,7 @@
             "title": "Lorem.",
             "text": "Lorem, ipsum.",
             "labels": "",
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "4.500.000",
             "priceOld": "",
             "shareUrl": ""
@@ -101,7 +101,7 @@
                     "value": "New"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "5.500.000",
             "priceOld": "",
             "shareUrl": ""
@@ -112,7 +112,7 @@
             "title": "Lorem.",
             "text": "Lorem ipsum dolor.",
             "labels": "",
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "6.500.000",
             "priceOld": "",
             "shareUrl": ""
@@ -128,7 +128,7 @@
                     "value": "-30%"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "7.000.000",
             "priceOld": "10.000.000",
             "shareUrl": ""
@@ -139,7 +139,7 @@
             "title": "Lorem, ipsum.",
             "text": "Lorem ipsum dolor sit.",
             "labels": "",
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "2.000.000",
             "priceOld": "",
             "shareUrl": ""
@@ -155,7 +155,7 @@
                     "value": "-50%"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "2.500.000",
             "priceOld": "5.000.000",
             "shareUrl": ""
@@ -171,7 +171,7 @@
                     "value": "New"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "7.000.000",
             "priceOld": "",
             "shareUrl": ""
@@ -182,7 +182,7 @@
             "title": "Lorem, ipsum.",
             "text": "Lorem ipsum dolor sit.",
             "labels": "",
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "4.000.000",
             "priceOld": "",
             "shareUrl": ""
@@ -198,7 +198,7 @@
                     "value": "-33%"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "6.000.000",
             "priceOld": "9.000.000",
             "shareUrl": ""
@@ -209,7 +209,7 @@
             "title": "Lorem, ipsum.",
             "text": "Lorem ipsum dolor.",
             "labels": "",
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "16.000.000",
             "priceOld": "",
             "shareUrl": ""
@@ -225,7 +225,7 @@
                     "value": "New"
                 }
             ],
-            "image": "http://via.placeholder.com/285x301",
+            "image": "https://via.placeholder.com/285x301",
             "price": "10.000.000",
             "priceOld": "",
             "shareUrl": ""
