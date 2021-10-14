@@ -644,7 +644,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             button.classList.add("_hold");
             const file = "../json/products.json";
             let response = await fetch(file, { method: "GET" });
-            console.log(response.status);
             if (response.ok) {
                 let result = await response.json();
                 loadProducts(result, button);
@@ -654,6 +653,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         }
     }
+
+    function prekol() {
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+            .then(response => response.json())
+            .then(json => console.log(json))
+    }
+
+    prekol();
 
     function loadProducts(data, button) {
         const productsItems = document.querySelector(".products__items");
