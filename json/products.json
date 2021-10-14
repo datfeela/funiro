@@ -1,0 +1,234 @@
+{
+    "products": [
+        {
+            "id": 9,
+            "url": "#",
+            "title": "Lorem",
+            "text": "Lorem, ipsum dolor.",
+            "labels": [
+                {
+                    "type": "new",
+                    "value": "New"
+                },
+                {
+                    "type": "sale",
+                    "value": "-10%"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "4.500.000",
+            "priceOld": "5.000.000",
+            "shareUrl": ""
+        },
+        {
+            "id": 10,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor sit amet.",
+            "labels": [
+                {
+                    "type": "sale",
+                    "value": "-30%"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "6.000.000",
+            "priceOld": "10.000.000",
+            "shareUrl": ""
+        },
+        {
+            "id": 11,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem, ipsum, dolor.",
+            "labels": [
+                {
+                    "type": "sale",
+                    "value": "-40%"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "4.500.000",
+            "priceOld": "7.500.000",
+            "shareUrl": ""
+        },
+        {
+            "id": 12,
+            "url": "#",
+            "title": "Lorem.",
+            "text": "Lorem ipsum dolor.",
+            "labels": "",
+            "image": "http://via.placeholder.com/285x301",
+            "price": "3.500.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 13,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor sit.",
+            "labels": [
+                {
+                    "type": "sale",
+                    "value": "-50%"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "3.000.000",
+            "priceOld": "6.000.000",
+            "shareUrl": ""
+        },
+        {
+            "id": 14,
+            "url": "#",
+            "title": "Lorem.",
+            "text": "Lorem, ipsum.",
+            "labels": "",
+            "image": "http://via.placeholder.com/285x301",
+            "price": "4.500.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 15,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor sit amet.",
+            "labels": [
+                {
+                    "type": "new",
+                    "value": "New"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "5.500.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 16,
+            "url": "#",
+            "title": "Lorem.",
+            "text": "Lorem ipsum dolor.",
+            "labels": "",
+            "image": "http://via.placeholder.com/285x301",
+            "price": "6.500.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 17,
+            "url": "#",
+            "title": "Lorem.",
+            "text": "Lorem ipsum dolor.",
+            "labels": [
+                {
+                    "type": "sale",
+                    "value": "-30%"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "7.000.000",
+            "priceOld": "10.000.000",
+            "shareUrl": ""
+        },
+        {
+            "id": 18,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor sit.",
+            "labels": "",
+            "image": "http://via.placeholder.com/285x301",
+            "price": "2.000.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 19,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor sit amet.",
+            "labels": [
+                {
+                    "type": "sale",
+                    "value": "-50%"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "2.500.000",
+            "priceOld": "5.000.000",
+            "shareUrl": ""
+        },
+        {
+            "id": 20,
+            "url": "#",
+            "title": "Lorem.",
+            "text": "Lorem, ipsum.",
+            "labels": [
+                {
+                    "type": "new",
+                    "value": "New"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "7.000.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 21,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor sit.",
+            "labels": "",
+            "image": "http://via.placeholder.com/285x301",
+            "price": "4.000.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 22,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor sit amet.",
+            "labels": [
+                {
+                    "type": "sale",
+                    "value": "-33%"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "6.000.000",
+            "priceOld": "9.000.000",
+            "shareUrl": ""
+        },
+        {
+            "id": 23,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor.",
+            "labels": "",
+            "image": "http://via.placeholder.com/285x301",
+            "price": "16.000.000",
+            "priceOld": "",
+            "shareUrl": ""
+        },
+        {
+            "id": 24,
+            "url": "#",
+            "title": "Lorem, ipsum.",
+            "text": "Lorem ipsum dolor.",
+            "labels": [
+                {
+                    "type": "new",
+                    "value": "New"
+                }
+            ],
+            "image": "http://via.placeholder.com/285x301",
+            "price": "10.000.000",
+            "priceOld": "",
+            "shareUrl": ""
+        }
+    ]
+}
