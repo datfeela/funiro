@@ -658,10 +658,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         fetch('https://jsonplaceholder.typicode.com/todos/1')
             .then(response => response.json())
             .then(json => console.log(json))
-        fetch('../json/products.json')
-            .then(response => response.json())
-            .then(json => console.log(json))
-
+        let response = fetch(file, { method: "GET" });
+        if (response.ok) {
+            let result = response.json();
+            console.log(result);
+        } else {
+            alert("something went wrong...");
+        }
     }
 
     prekol();
