@@ -21,19 +21,8 @@ const isMobile = {
     },
 };
 
-let checkStartTime = new Date().getTime()
-console.log('henlo, ', checkStartTime);
-
-window.onload = function () {
-    let loadEndTime = new Date().getTime();
-    console.log('window loaded, ', loadEndTime);
-    console.log('time diff: ', loadEndTime - checkStartTime);
-}
-
 document.addEventListener("DOMContentLoaded", (event) => {
     let checkEndTime = new Date().getTime();
-    console.log("DOM loaded, ", checkEndTime);
-    console.log('time diff: ', checkEndTime - checkStartTime);
 
     document.addEventListener("click", (event) => {
         const targetElement = event.target;
