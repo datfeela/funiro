@@ -543,6 +543,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let slidesPerSwipeTips = 3;
     if (document.documentElement.clientWidth < 1350) slidesPerSwipeTips = 2;
+    if (document.documentElement.clientWidth < 768) slidesPerSwipeTips = 1;
 
     const tipsSlider = new Slider({
         sliderWrap: document.querySelector(".slider-tips__wrapper"),
@@ -610,13 +611,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             tipsSlider.sliderPos = 0;
             tipsSlider.swipeSlider();
         }
-        if (document.documentElement.clientWidth >= 700 && document.documentElement.clientWidth <= 1350 && tipsSlider.slidesPerSwipe != 2) {
+        if (document.documentElement.clientWidth >= 768 && document.documentElement.clientWidth <= 1350 && tipsSlider.slidesPerSwipe != 2) {
             tipsSlider.slidesPerSwipe = 2;
             tipsSlider.hideDots();
             tipsSlider.sliderPos = 0;
             tipsSlider.swipeSlider();
         }
-        if (document.documentElement.clientWidth < 700 && tipsSlider.slidesPerSwipe != 1) {
+        if (document.documentElement.clientWidth < 768 && tipsSlider.slidesPerSwipe != 1) {
             tipsSlider.slidesPerSwipe = 1;
             tipsSlider.sliderPos = 0;
             tipsSlider.swipeSlider();
@@ -642,7 +643,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     async function getProducts(button) {
         if (!button.classList.contains("_hold")) {
             button.classList.add("_hold");
-            const file = "https://datfeela.github.io/funiro/json/products.json";
+            const file = "../json/products.json";
+            // const file = "https://datfeela.github.io/funiro/json/products.json";
             let response = await fetch(file, { method: "GET" });
             if (response.ok) {
                 let result = await response.json();
@@ -667,7 +669,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             const productId = item.id;
             const productImage = item.image;
-            const imageSrc = 'https://datfeela.github.io/funiro/';
             const productTitle = item.title;
             const productText = item.text;
             const productPrice = item.price;
