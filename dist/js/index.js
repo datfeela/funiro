@@ -543,6 +543,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let slidesPerSwipeTips = 3;
     if (document.documentElement.clientWidth < 1350) slidesPerSwipeTips = 2;
+    if (document.documentElement.clientWidth < 768) slidesPerSwipeTips = 1;
 
     const tipsSlider = new Slider({
         sliderWrap: document.querySelector(".slider-tips__wrapper"),
@@ -610,13 +611,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             tipsSlider.sliderPos = 0;
             tipsSlider.swipeSlider();
         }
-        if (document.documentElement.clientWidth >= 700 && document.documentElement.clientWidth <= 1350 && tipsSlider.slidesPerSwipe != 2) {
+        if (document.documentElement.clientWidth >= 768 && document.documentElement.clientWidth <= 1350 && tipsSlider.slidesPerSwipe != 2) {
             tipsSlider.slidesPerSwipe = 2;
             tipsSlider.hideDots();
             tipsSlider.sliderPos = 0;
             tipsSlider.swipeSlider();
         }
-        if (document.documentElement.clientWidth < 700 && tipsSlider.slidesPerSwipe != 1) {
+        if (document.documentElement.clientWidth < 768 && tipsSlider.slidesPerSwipe != 1) {
             tipsSlider.slidesPerSwipe = 1;
             tipsSlider.sliderPos = 0;
             tipsSlider.swipeSlider();
