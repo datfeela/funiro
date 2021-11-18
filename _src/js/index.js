@@ -34,12 +34,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // делегирование click для смены класса menu__item
     const headerMenu = document.querySelector(".header__menu");
     headerMenu.addEventListener("click", changeMenuItemClass);
+    headerMenu.addEventListener("mouseover", removeMenuItemClass);
 
     function changeMenuItemClass(event) {
         const targetElement = event.target;
 
-        //??! как проверить ТОЛЬКО тачскрин?
-        // if (isMobile.any() && document.documentElement.clientWidth > 768) {
         if (document.documentElement.clientWidth > 768) {
             if (!targetElement.closest(".menu__sub-list") && targetElement.closest(".menu__item._hover")) {
                 targetElement.closest(".menu__item").classList.toggle("_hover");
@@ -47,6 +46,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 let itemHover = headerMenu.querySelector(".menu__item._hover");
                 if (itemHover) itemHover.classList.remove("_hover");
                 targetElement.closest(".menu__item").classList.toggle("_hover");
+            }
+        }
+    }
+
+    function removeMenuItemClass(event) {
+        const targetElement = event.target;
+        const menuItems = Array.from(headerMenu.querySelectorAll(".menu__item"));
+
+        if (document.documentElement.clientWidth > 768 && targetElement.closest(".menu__item") && !(targetElement.closest(".menu__item").classList.contains("_hover"))) {
+            for (let count = 0; count < menuItems.length; count++) {
+                if (menuItems[count] != targetElement) menuItems[count].classList.remove("_hover");
             }
         }
     }
@@ -634,6 +644,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     //------------------------------- MAIN__PRODUCTS ------------------------------------//
     //подгрузка новых продуктов
+    const productsItems = document.querySelector(".products__items");
     const productsSection = document.querySelector(".products");
     let count = 0;
     productsSection.addEventListener("click", function (event) {
@@ -657,7 +668,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function loadProducts(data, button) {
-        const productsItems = document.querySelector(".products__items");
         if (count >= data.products.length) {
             button.classList.add("_blocked");
             return;
@@ -702,7 +712,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let productTemplateContentStart = `<div class="product__content">`;
             let productTemplateContentEnd = `</div>`;
             let productTemplateContentBody = `
-            <h2 class="product__title">${productTitle}</h2>
+            <a href="" class="product__title">${productTitle}</a>
             <span class="product__description">${productText}</span>
 	        `;
 
@@ -774,6 +784,26 @@ document.addEventListener("DOMContentLoaded", (event) => {
         cartQuantity.style.opacity = "0";
         cartQuantity.style.visibility = "hidden";
     }
+
+    //попап при нажатии на мобильных устройствах
+    productsItems.addEventListener("click", (event) => {
+        const targetElement = event.target,
+            activeProduct = document.querySelector(".product._active");
+
+        if (targetElement.closest(".product") && !targetElement.classList.contains("product__title")) {
+            if (activeProduct != null) activeProduct.classList.remove("_active");
+            targetElement.closest(".product").classList.add("_active");
+        }
+    })
+
+    document.addEventListener("click", (event) => {
+        const targetElement = event.target,
+            activeProduct = document.querySelector(".product._active");
+        if (!targetElement.closest(".product._active") && activeProduct != null) {
+            activeProduct.classList.remove("_active");
+        }
+    });
+
 
     //добавление товаров в корзину
     const cart = document.querySelector(".actions__item.cart");
