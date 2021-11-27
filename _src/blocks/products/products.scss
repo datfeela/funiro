@@ -245,27 +245,6 @@
         }
     }
 
-    // .popup-product__link
-
-    &__link {
-        display: flex;
-        align-items: center;
-        height: 24px;
-        transition: all 0.3s ease 0s;
-
-        @media (any-hover: hover) {
-            &:hover {
-                .popup-product__icon {
-                    fill: $orangeColor;
-                }
-
-                .popup-product__text {
-                    color: $orangeColor;
-                }
-            }
-        }
-    }
-
     // .popup-product__icon
 
     &__icon {
@@ -296,6 +275,27 @@
         font-weight: 600px;
         line-height: 150%;
         transition: all 0.3s ease 0s;
+    }
+
+    // .popup-product__share-button
+
+    &__share-button {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        transition: all 0.3s ease 0s;
+
+        @media (any-hover: hover) {
+            &:hover {
+                .popup-product__icon {
+                    fill: $orangeColor;
+                }
+
+                .popup-product__text {
+                    color: $orangeColor;
+                }
+            }
+        }
     }
 
     // .popup-product__like-button

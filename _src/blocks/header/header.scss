@@ -381,6 +381,11 @@
             visibility: visible;
             transform: translateY(0);
         }
+        @media (any-hover: none) {
+            .cart__icon {
+                fill: $orangeColor;
+            }
+        }
     }
 
     &__icon {
@@ -393,6 +398,7 @@
         @media (any-hover: hover) {
             &:hover {
                 fill: $orangeColor;
+                cursor: pointer;
             }
         }
     }

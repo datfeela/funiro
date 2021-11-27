@@ -44,8 +44,8 @@ const path = {
     },
     watch: {
         html: source_folder + "/**/*.html",
-        js: source_folder + "/js/**/*.js",
-        css: source_folder + "/scss/**/*.scss",
+        js: source_folder + "/**/*.js",
+        css: source_folder + "/**/*.scss",
         images: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
         icons: source_folder + "/icons/*.svg",
     },

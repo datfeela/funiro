@@ -4,19 +4,18 @@
 @import "page.scss";
 
 //header
-@import "blocks/header.scss";
+@import "../blocks/header/header.scss";
 
 //main
-@import "blocks/main.scss";
-@import "blocks/main-slider.scss";
-@import "blocks/advantages.scss";
-@import "blocks/products.scss";
-@import "blocks/rooms.scss";
-@import "blocks/tips.scss";
-@import "blocks/furniture.scss";
+@import "../blocks/main-slider/main-slider.scss";
+@import "../blocks/advantages/advantages.scss";
+@import "../blocks/products/products.scss";
+@import "../blocks/rooms/rooms.scss";
+@import "../blocks/tips/tips.scss";
+@import "../blocks/furniture/furniture.scss";
 
-@import "blocks/slider-arrows.scss";
-@import "blocks/slider-dots.scss";
+@import "../blocks/common/slider-arrows/slider-arrows.scss";
+@import "../blocks/common/slider-dots/slider-dots.scss";
 
 //footer
-@import "blocks/footer.scss";
+@import "../blocks/footer/footer.scss";
