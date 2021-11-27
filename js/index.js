@@ -1,5 +1,3 @@
-"use strict";
-// ;
 const isMobile = {
     Android: function () {
         return navigator.userAgent.match(/Android/i);
@@ -21,18 +19,27 @@ const isMobile = {
     },
 };
 
+function createSliderDots(pages, dotsPosition, dotsClassName, dotClassName, dotID) {
+    const childElemsCount = pages.length;
+    const dotsPos = dotsPosition;
+    let dots = document.createElement("div");
+    dots.className = `${dotsClassName}`;
+    dots.style.width = `${27 + 20 * (childElemsCount - 1) + 11 * (childElemsCount - 1)}px`;
+    for (let i = 0; i < childElemsCount; i++) {
+        let dot = document.createElement("div");
+        dot.className = `${dotClassName}${i + 1}`;
+        dot.id = `${dotID}${i + 1}`;
+        dots.append(dot);
+    }
+    dotsPos.prepend(dots);
+};
+//-------------------------------- HEADER__MENU --------------------------------//
+
 document.addEventListener("DOMContentLoaded", (event) => {
-    let checkEndTime = new Date().getTime();
-
-    document.addEventListener("click", (event) => {
-        const targetElement = event.target;
-        if (targetElement.closest("a")) event.preventDefault(); //!контрю переход по ссылке, убрать позже
-        // console.log(targetElement); //прикол
-    });
-
-    //-------------------------------- HEADER__MENU --------------------------------//
     // делегирование click для смены класса menu__item
+    const header = document.querySelector(".header");
     const headerMenu = document.querySelector(".header__menu");
+    const burger = document.querySelector(".burger");
     headerMenu.addEventListener("click", changeMenuItemClass);
     headerMenu.addEventListener("mouseover", removeMenuItemClass);
 
@@ -113,14 +120,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     //------------------------------- HEADER__BURGER ------------------------------------//
     //бургер
-    const burger = document.querySelector(".burger");
     burger.addEventListener("click", (event) => {
         headerMenu.classList.toggle("_active");
     });
 
     //---//
     //observer за шапкой
-    const header = document.querySelector(".header");
 
     const callback = function (entries, observer) {
         if (entries[0].isIntersecting) {
@@ -132,147 +137,142 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const headerObserver = new IntersectionObserver(callback);
     headerObserver.observe(header);
+});
+class Slider {
+    constructor(params) {
+        this.sliderWrap = params.sliderWrap;
+        this.nextBtn = params.nextBtn;
+        this.prevBtn = params.prevBtn;
+        this.sliderPos = params.sliderPos;
+        this.isDragging = false;
+        this.startPos;
+        this.slidesPerSwipe = params.slidesPerSwipe;
+        this.currentTranslate;
+        // this.currentTranslateX = 0;
+        this.prevTranslate = 0;
+        this.startTime;
+        this.endTime;
+        this.activeDot = params.activeDot;
+        this.sliderPages = params.sliderPages;
+        this.activePage;
+        this.dots = params.dots;
+        this.sliderName = params.sliderName;
+    }
 
-    //------------------------------- Слайдеры ------------------------------------//
-    //Класс
+    //methods
 
-    class Slider {
-        constructor(params) {
-            this.sliderWrap = params.sliderWrap;
-            this.nextBtn = params.nextBtn;
-            this.prevBtn = params.prevBtn;
-            this.sliderPos = params.sliderPos;
-            this.isDragging = false;
-            this.startPos;
-            this.slidesPerSwipe = params.slidesPerSwipe;
-            this.currentTranslate;
-            // this.currentTranslateX = 0;
-            this.prevTranslate = 0;
-            this.startTime;
-            this.endTime;
-            this.activeDot = params.activeDot;
-            this.sliderPages = params.sliderPages;
-            this.activePage;
-            this.dots = params.dots;
-            this.sliderName = params.sliderName;
-        }
+    touchStart(event) {
+        this.startPos = this.getPositionX(event);
+        this.isDragging = true;
+        this.startTime = new Date().getTime();
+    }
 
-        //methods
-
-        touchStart(event) {
-            this.startPos = this.getPositionX(event);
-            this.isDragging = true;
-            this.startTime = new Date().getTime();
-        }
-
-        touchMove(event) {
-            if (this.isDragging) {
-                const currentPosition = this.getPositionX(event);
-                this.currentTranslate = this.prevTranslate + currentPosition - this.startPos;
-            }
-        }
-
-        touchEnd() {
-            this.isDragging = false;
-            const movedBy = this.currentTranslate - this.prevTranslate;
-            this.endTime = new Date().getTime() - this.startTime;
-            if (movedBy < -150 && this.endTime < 400) {
-                this.swipeRight();
-            }
-            if (movedBy > 150 && this.endTime < 400) {
-                this.swipeLeft();
-            }
-        }
-
-        getPositionX(event) {
-            if (event.type.includes("mouse")) return event.pageX;
-            else return event.touches[0].clientX;
-        }
-
-        swipeRight() {
-            if (this.sliderPos < Math.ceil(this.sliderWrap.childElementCount / this.slidesPerSwipe) - 1) {
-                this.sliderPos += 1;
-                this.swipeSlider();
-                this.changeActiveSlide();
-            }
-        }
-
-        swipeLeft() {
-            if (this.sliderPos > 0) {
-                this.sliderPos -= 1;
-                this.swipeSlider();
-                this.changeActiveSlide();
-            }
-        }
-
-        swipeOnDot(event) {
-            if (event.target.classList.contains(`controls-${this.sliderName}__dot`) && !event.target.classList.contains("_active")) {
-                this.activeDot.classList.remove("_active");
-                event.target.classList.add("_active");
-                let idLength = this.dots.firstElementChild.id.length - 1; //для удобного slice из id вне зависимости от кол-ва слайдов
-                this.activeDot = event.target;
-                this.sliderPos = event.target.id.slice(idLength) - 1;
-                this.sliderWrap.style.transform = `translateX(${this.sliderPos * -this.calcSlideWidth() * this.slidesPerSwipe}px)`;
-                this.changeActiveSlide();
-                this.blockButtons();
-            }
-        }
-
-        calcSlideWidth() {
-            let imgWidth = getComputedStyle(this.activePage).width;
-            imgWidth = imgWidth.slice(0, 3);
-            let margin = getComputedStyle(this.activePage).marginRight;
-            margin = margin.slice(0, 2);
-            imgWidth = +imgWidth + +margin;
-            return imgWidth;
-        }
-
-        swipeSlider() {
-            this.sliderWrap.style.transform = `translateX(${this.sliderPos * -this.calcSlideWidth() * this.slidesPerSwipe}px)`;
-            this.activeDot.classList.remove("_active");
-            this.activeDot = document.querySelector(`.controls-${this.sliderName}__dot_${this.sliderPos + 1}`);
-            this.activeDot.classList.add("_active");
-            this.blockButtons();
-        }
-
-        changeActiveSlide() {
-            this.activePage.classList.remove("_active");
-            this.activePage = document.getElementById(`${this.sliderName}-page-${this.sliderPos * this.slidesPerSwipe + 1}`);
-            this.activePage.classList.add("_active");
-        }
-
-        blockButtons() {
-            switch (this.sliderPos) {
-                case 0:
-                    if (!this.prevBtn.classList.contains("_blocked")) this.prevBtn.classList.add("_blocked");
-                    if (this.nextBtn.classList.contains("_blocked")) this.nextBtn.classList.remove("_blocked");
-                    break;
-                case Math.ceil(this.sliderWrap.childElementCount / this.slidesPerSwipe) - 1:
-                    if (!this.nextBtn.classList.contains("_blocked")) this.nextBtn.classList.add("_blocked");
-                    if (this.prevBtn.classList.contains("_blocked")) this.prevBtn.classList.remove("_blocked");
-                    break;
-                default:
-                    if (this.nextBtn.classList.contains("_blocked")) this.nextBtn.classList.remove("_blocked");
-                    if (this.prevBtn.classList.contains("_blocked")) this.prevBtn.classList.remove("_blocked");
-                    break;
-            }
-        }
-
-        hideDots() {
-            let dotsArray = Array.from(this.dots.children);
-            let dotsNeeded = Math.ceil(dotsArray.length / this.slidesPerSwipe);
-            for (let i = dotsNeeded; i < dotsArray.length; i++) {
-                dotsArray[i].style.display = "none";
-            }
-            for (let i = 0; i < dotsNeeded; i++) {
-                dotsArray[i].style.display = "block";
-            }
-            this.dots.style.width = `${dotsNeeded * 11 + (dotsNeeded - 1) * 20}px`;
+    touchMove(event) {
+        if (this.isDragging) {
+            const currentPosition = this.getPositionX(event);
+            this.currentTranslate = this.prevTranslate + currentPosition - this.startPos;
         }
     }
 
-    //------------------------------- MAIN-SLIDER ------------------------------------//
-    // буллеты для main-slider
+    touchEnd() {
+        this.isDragging = false;
+        const movedBy = this.currentTranslate - this.prevTranslate;
+        this.endTime = new Date().getTime() - this.startTime;
+        if (movedBy < -150 && this.endTime < 400) {
+            this.swipeRight();
+        }
+        if (movedBy > 150 && this.endTime < 400) {
+            this.swipeLeft();
+        }
+    }
+
+    getPositionX(event) {
+        if (event.type.includes("mouse")) return event.pageX;
+        else return event.touches[0].clientX;
+    }
+
+    swipeRight() {
+        if (this.sliderPos < Math.ceil(this.sliderWrap.childElementCount / this.slidesPerSwipe) - 1) {
+            this.sliderPos += 1;
+            this.swipeSlider();
+            this.changeActiveSlide();
+        }
+    }
+
+    swipeLeft() {
+        if (this.sliderPos > 0) {
+            this.sliderPos -= 1;
+            this.swipeSlider();
+            this.changeActiveSlide();
+        }
+    }
+
+    swipeOnDot(event) {
+        if (event.target.classList.contains(`controls-${this.sliderName}__dot`) && !event.target.classList.contains("_active")) {
+            this.activeDot.classList.remove("_active");
+            event.target.classList.add("_active");
+            let idLength = this.dots.firstElementChild.id.length - 1; //для удобного slice из id вне зависимости от кол-ва слайдов
+            this.activeDot = event.target;
+            this.sliderPos = event.target.id.slice(idLength) - 1;
+            this.sliderWrap.style.transform = `translateX(${this.sliderPos * -this.calcSlideWidth() * this.slidesPerSwipe}px)`;
+            this.changeActiveSlide();
+            this.blockButtons();
+        }
+    }
+
+    calcSlideWidth() {
+        let imgWidth = getComputedStyle(this.activePage).width;
+        imgWidth = imgWidth.slice(0, 3);
+        let margin = getComputedStyle(this.activePage).marginRight;
+        margin = margin.slice(0, 2);
+        imgWidth = +imgWidth + +margin;
+        return imgWidth;
+    }
+
+    swipeSlider() {
+        this.sliderWrap.style.transform = `translateX(${this.sliderPos * -this.calcSlideWidth() * this.slidesPerSwipe}px)`;
+        this.activeDot.classList.remove("_active");
+        this.activeDot = document.querySelector(`.controls-${this.sliderName}__dot_${this.sliderPos + 1}`);
+        this.activeDot.classList.add("_active");
+        this.blockButtons();
+    }
+
+    changeActiveSlide() {
+        this.activePage.classList.remove("_active");
+        this.activePage = document.getElementById(`${this.sliderName}-page-${this.sliderPos * this.slidesPerSwipe + 1}`);
+        this.activePage.classList.add("_active");
+    }
+
+    blockButtons() {
+        switch (this.sliderPos) {
+            case 0:
+                if (!this.prevBtn.classList.contains("_blocked")) this.prevBtn.classList.add("_blocked");
+                if (this.nextBtn.classList.contains("_blocked")) this.nextBtn.classList.remove("_blocked");
+                break;
+            case Math.ceil(this.sliderWrap.childElementCount / this.slidesPerSwipe) - 1:
+                if (!this.nextBtn.classList.contains("_blocked")) this.nextBtn.classList.add("_blocked");
+                if (this.prevBtn.classList.contains("_blocked")) this.prevBtn.classList.remove("_blocked");
+                break;
+            default:
+                if (this.nextBtn.classList.contains("_blocked")) this.nextBtn.classList.remove("_blocked");
+                if (this.prevBtn.classList.contains("_blocked")) this.prevBtn.classList.remove("_blocked");
+                break;
+        }
+    }
+
+    hideDots() {
+        let dotsArray = Array.from(this.dots.children);
+        let dotsNeeded = Math.ceil(dotsArray.length / this.slidesPerSwipe);
+        for (let i = dotsNeeded; i < dotsArray.length; i++) {
+            dotsArray[i].style.display = "none";
+        }
+        for (let i = 0; i < dotsNeeded; i++) {
+            dotsArray[i].style.display = "block";
+        }
+        this.dots.style.width = `${dotsNeeded * 11 + (dotsNeeded - 1) * 20}px`;
+    }
+};
+document.addEventListener("DOMContentLoaded", (event) => {
     createSliderDots(
         document.querySelectorAll(".slider-main__page"),
         document.querySelector(".slider-main__controls"),
@@ -351,24 +351,341 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const slideImage = slide.querySelector("img");
         slideImage.addEventListener("dragstart", (event) => event.preventDefault());
     });
+});
+document.addEventListener("DOMContentLoaded", (event) => {
 
-    function createSliderDots(pages, dotsPosition, dotsClassName, dotClassName, dotID) {
-        const childElemsCount = pages.length;
-        const dotsPos = dotsPosition;
-        let dots = document.createElement("div");
-        dots.className = `${dotsClassName}`;
-        dots.style.width = `${27 + 20 * (childElemsCount - 1) + 11 * (childElemsCount - 1)}px`;
-        for (let i = 0; i < childElemsCount; i++) {
-            let dot = document.createElement("div");
-            dot.className = `${dotClassName}${i + 1}`;
-            dot.id = `${dotID}${i + 1}`;
-            dots.append(dot);
+    const header = document.querySelector(".header");
+    const productsItems = document.querySelector(".products__items");
+    const productsSection = document.querySelector(".products");
+    let count = 0;
+    productsSection.addEventListener("click", function (event) {
+        if (event.target.closest(".products__load-more-button")) getProducts(event.target.closest(".products__load-more-button"));
+    });
+
+    async function getProducts(button) {
+        if (!button.classList.contains("_hold")) {
+            button.classList.add("_hold");
+            const file = "../json/products.json";
+            let response = await fetch(file, { method: "GET" });
+            if (response.ok) {
+                let result = await response.json();
+                loadProducts(result, button);
+                button.classList.remove("_hold");
+            } else {
+                alert("something went wrong...");
+            }
         }
-        dotsPos.prepend(dots);
     }
 
-    //------------------------------- ROOMS-SLIDER ------------------------------------//
-    // буллеты для rooms-slider
+    function loadProducts(data, button) {
+        if (count >= data.products.length) {
+            button.classList.add("_blocked");
+            return;
+        }
+        let cycleCount = 0;
+        for (let arrCount = count; arrCount < count + 4; arrCount++) {
+            let item = data.products[arrCount];
+            //---------------
+
+            const productId = item.id;
+            const productImage = item.image;
+            const productTitle = item.title;
+            const productText = item.text;
+            const productPrice = item.price;
+            const productOldPrice = item.priceOld;
+            const productShareUrl = item.shareUrl;
+            const productLabels = item.labels;
+
+            let productTemplateStart = `<div data-prodid="${productId}" class="products__product product">`;
+            let productTemplateEnd = `</div>`;
+
+            let productTemplateLabels = "";
+            if (productLabels) {
+                let productTemplateLabelsStart = `<div class="product__labels">`;
+                let productTemplateLabelsEnd = `</div>`;
+                let productTemplateLabelsContent = "";
+
+                productLabels.forEach((labelItem) => {
+                    productTemplateLabelsContent += `<div class="product__label product__label_${labelItem.type}">${labelItem.value}</div>`;
+                });
+
+                productTemplateLabels += productTemplateLabelsStart;
+                productTemplateLabels += productTemplateLabelsContent;
+                productTemplateLabels += productTemplateLabelsEnd;
+            }
+
+            let productTemplateImage = `
+            <img class="product__image" src="${productImage}" alt="${productTitle}" />
+            `;
+
+            let productTemplateContent = "";
+            let productTemplateContentStart = `<div class="product__content">`;
+            let productTemplateContentEnd = `</div>`;
+            let productTemplateContentBody = `
+            <a href="" class="product__title">${productTitle}</a>
+            <span class="product__description">${productText}</span>
+	        `;
+
+            let productTemplatePrices = "";
+            let productTemplatePricesStart = `<div class="product__prices">`;
+            let productTemplatePricesCurrent = `<span class="product__price">Rp ${productPrice}</span>`;
+            let productTemplatePricesOld = `<span class="product__old-price">Rp ${productOldPrice}</span>`;
+            let productTemplatePricesEnd = `</div>`;
+
+            productTemplatePrices = productTemplatePricesStart;
+            productTemplatePrices += productTemplatePricesCurrent;
+            if (productOldPrice) {
+                productTemplatePrices += productTemplatePricesOld;
+            }
+            productTemplatePrices += productTemplatePricesEnd;
+
+            productTemplateContent += productTemplateContentStart;
+            productTemplateContent += productTemplateContentBody;
+            productTemplateContent += productTemplatePrices;
+            productTemplateContent += productTemplateContentEnd;
+
+            let productTemplatePopup = `
+            <div class="product__popup popup-product">
+                <div class="popup-product__actions">
+                    <a href="" class="popup-product__button">Add to cart</a>
+                    <button class="popup-product__share-button">
+                        <svg class="popup-product__icon popup-product__icon_share">
+                            <use xlink:href="#share"></use>
+                        </svg>
+                        <span class="popup-product__text">Share</span>
+                    </button>
+                    <button class="popup-product__like-button">
+                        <svg class="popup-product__icon popup-product__icon_like">
+                            <use xlink:href="#favorite"></use>
+                        </svg>
+                        <span class="popup-product__text">Like</span>
+                    </button>
+                </div>
+            </div>
+	    `;
+
+            let productTemplateBody = "";
+            productTemplateBody += productTemplateContent;
+            productTemplateBody += productTemplatePopup;
+
+            let productTemplate = "";
+            productTemplate += productTemplateStart;
+            productTemplate += productTemplateLabels;
+            productTemplate += productTemplateImage;
+            productTemplate += productTemplateBody;
+            productTemplate += productTemplateEnd;
+
+            productsItems.insertAdjacentHTML("beforeend", productTemplate);
+            //----------------
+
+            cycleCount++;
+            if (count + cycleCount >= data.products.length) {
+                count += cycleCount;
+                button.classList.add("_blocked");
+                return;
+            }
+        }
+        count += cycleCount;
+    }
+
+    function closeCart() {
+        cart.classList.remove("_active");
+        cart.classList.remove("_opened");
+        cartQuantity.style.opacity = "0";
+        cartQuantity.style.visibility = "hidden";
+    }
+
+    //попап при нажатии на мобильных устройствах
+    productsItems.addEventListener("click", (event) => {
+        const targetElement = event.target,
+            activeProduct = document.querySelector(".product._active");
+
+        if (targetElement.closest(".product") && !targetElement.classList.contains("product__title")) {
+            if (activeProduct != null) activeProduct.classList.remove("_active");
+            targetElement.closest(".product").classList.add("_active");
+        }
+    })
+
+    //снятие _active с итемов
+    document.addEventListener("click", (event) => {
+        const targetElement = event.target,
+            activeProduct = document.querySelector(".product._active");
+        if (!targetElement.closest(".product._active") && activeProduct != null) {
+            activeProduct.classList.remove("_active");
+        }
+    });
+
+
+    //добавление товаров в корзину
+    const cart = document.querySelector(".actions__item.cart");
+    const cartQuantity = cart.querySelector("span");
+    const cartList = cart.querySelector(".cart__list");
+    let cartProductsCount = +cartQuantity.innerHTML;
+
+    productsSection.addEventListener("click", (event) => {
+        const targetElement = event.target;
+
+            if (targetElement.closest(".popup-product__button")) {
+                event.preventDefault();
+            let product = targetElement.closest(".product");
+
+            if (product.classList.contains("_added")) {
+                const itemID = product.dataset.prodid;
+                const cartListItem = document.querySelector(`.item-cart[data-prodid="${itemID}"]`);
+                let cartListItemCounter = cartListItem.querySelector(".quantity-cart__counter").innerHTML;
+                cartListItem.querySelector(".quantity-cart__counter").innerHTML = ++cartListItemCounter;
+                cartProductsCount++;
+            } else {
+                product.classList.add("_added");
+                //cоздаю копию продукта
+
+                let productCart = document.createElement("li");
+                productCart.dataset.prodid = product.dataset.prodid;
+                productCart.className = "cart__item item-cart";
+
+                productCart.insertAdjacentHTML(
+                    "afterBegin",
+                    `
+                <img class="item-cart__image" src="${product.querySelector(".product__image").getAttribute("src")}" alt="">
+                <h2 class="item-cart__title">${product.querySelector(".product__title").innerHTML}</h2>
+                <span class="item-cart__price">${product.querySelector(".product__price").innerHTML}</span>
+                <div class="item-cart__quantity quantity-cart">
+                <button class="quantity-cart__button quantity-cart__button_minus">-</button>
+                <span class="quantity-cart__counter">1</span>
+                <button class="quantity-cart__button quantity-cart__button_plus">+</button>
+                </div>
+                <button class="item-cart__delete-button">
+                    <svg class="item-cart__icon">
+                        <use xlink:href="#delete"></use>
+                    </svg>
+                </button>
+                `
+                );
+
+                cartList.append(productCart);
+
+                cartProductsCount++;
+            }
+
+            //делаю корзину активной
+            if (!cart.classList.contains("_active")) {
+                cart.classList.add("_active");
+                cartQuantity.style.opacity = "1";
+                cartQuantity.style.visibility = "visible";
+            }
+
+            if (cartProductsCount > 99) {
+                cartQuantity.innerHTML = "99+";
+                cartQuantity.style.height = "20px";
+                cartQuantity.style.width = "20px";
+            } else {
+                cartQuantity.innerHTML = `${cartProductsCount}`;
+                cartQuantity.style.height = "16px";
+                cartQuantity.style.width = "16px";
+            }
+        }
+    });
+
+    //изменение количества товаров в корзине на +-
+    cartList.addEventListener("click", (event) => {
+        const targetElement = event.target;
+
+        if (event.target.classList.contains("quantity-cart__button_minus")) {
+            let counter = targetElement.nextElementSibling.innerHTML;
+            if (counter > 1) {
+                targetElement.nextElementSibling.innerHTML = --counter;
+                cartProductsCount--;
+            } else {
+                event.preventDefault();
+
+                const itemID = targetElement.closest(".item-cart").dataset.prodid;
+                const product = document.querySelector(`.product[data-prodid="${itemID}"]`);
+                product.classList.remove("_added");
+
+                targetElement.closest(".item-cart").remove();
+                cartProductsCount--;
+            }
+        }
+
+        if (event.target.classList.contains("quantity-cart__button_plus")) {
+            let counter = targetElement.previousElementSibling.innerHTML;
+            targetElement.previousElementSibling.innerHTML = ++counter;
+            cartProductsCount++;
+        }
+
+        if (cartProductsCount > 99) {
+            cartQuantity.innerHTML = "99+";
+            cartQuantity.style.height = "20px";
+            cartQuantity.style.width = "20px";
+        } else {
+            cartQuantity.innerHTML = `${cartProductsCount}`;
+            cartQuantity.style.height = "16px";
+            cartQuantity.style.width = "16px";
+        }
+
+        if (cartProductsCount < 1) closeCart();
+    });
+
+    //удаление одного товара из корзины
+    header.addEventListener("click", (event) => {
+        const targetElement = event.target;
+
+        if (targetElement.closest(".item-cart__delete-button")) {
+            event.preventDefault();
+
+            let counter = targetElement.closest(".item-cart").querySelector(".quantity-cart__counter").innerHTML;
+            const itemID = targetElement.closest(".item-cart").dataset.prodid;
+            const product = document.querySelector(`.product[data-prodid="${itemID}"]`);
+            product.classList.remove("_added");
+
+            cartProductsCount -= counter;
+            targetElement.closest(".item-cart").remove();
+
+            cartQuantity.innerHTML = `${cartProductsCount}`;
+            if (cartProductsCount < 1) closeCart();
+        }
+    });
+
+    //удаление всех товаров из корзины
+    header.addEventListener("click", (event) => {
+        const targetElement = event.target;
+        const cartPopup = document.querySelector(".cart__delete-popup");
+        const deleteButton = document.querySelector(".cart__delete-popup-button_yes");
+        const cancelButton = document.querySelector(".cart__delete-popup-button_no");
+
+        if (targetElement.classList.contains("cart__delete-button")) {
+            cartPopup.classList.add("_active");
+
+            deleteButton.onclick = () => {
+                document.querySelectorAll(".product._added").forEach((element) => {
+                    element.classList.remove("_added");
+                });
+
+                // event.preventDefault();
+                targetElement.previousElementSibling.innerHTML = "";
+
+                cartProductsCount = 0;
+                closeCart();
+                cartPopup.classList.remove("_active");
+            };
+
+            cancelButton.onclick = () => {
+                cartPopup.classList.remove("_active");
+            };
+        }
+    });
+
+    //открытие/закрытие корзины
+    header.addEventListener("click", (event) => {
+        const targetElement = event.target;
+
+        if ((targetElement.closest(".cart__icon") || targetElement.closest(".search-form")) && cart.classList.contains("_opened")) {
+            cart.classList.remove("_opened");
+        } else if (targetElement.closest(".cart__icon") && !cart.classList.contains("_opened") && cart.classList.contains("_active"))
+            cart.classList.add("_opened");
+    });
+});;
+document.addEventListener("DOMContentLoaded", (event) => {
     createSliderDots(
         document.querySelectorAll(".slider-rooms__page"),
         document.querySelector(".slider-rooms__controls"),
@@ -533,16 +850,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, 1500);
     });
 
-    //functions
-
     //убираю перетаскивание img
     roomsSlider.sliderPages.forEach((slide) => {
         const slideImage = slide.querySelector("img");
         slideImage.addEventListener("dragstart", (event) => event.preventDefault());
     });
+})
 
-    //------------------------------- TIPS-SLIDER ------------------------------------//
-    // буллеты для tips-slider
+
+
+;
+document.addEventListener("DOMContentLoaded", (event) => {
     createSliderDots(
         document.querySelectorAll(".slider-tips__page"),
         document.querySelector(".slider-tips__controls"),
@@ -640,376 +958,30 @@ document.addEventListener("DOMContentLoaded", (event) => {
     tipsSlider.sliderPages.forEach((slide) => {
         const slideImage = slide.querySelector("img");
         slideImage.addEventListener("dragstart", (event) => event.preventDefault());
-    }); //!fix!!!!
-
-    //------------------------------- MAIN__PRODUCTS ------------------------------------//
-    //подгрузка новых продуктов
-    const productsItems = document.querySelector(".products__items");
-    const productsSection = document.querySelector(".products");
-    let count = 0;
-    productsSection.addEventListener("click", function (event) {
-        if (event.target.closest(".products__load-more-button")) getProducts(event.target.closest(".products__load-more-button"));
-    });
-
-    async function getProducts(button) {
-        if (!button.classList.contains("_hold")) {
-            button.classList.add("_hold");
-            const file = "json/products.json";
-            // const file = "https://datfeela.github.io/funiro/json/products.json";
-            let response = await fetch(file, { method: "GET" });
-            if (response.ok) {
-                let result = await response.json();
-                loadProducts(result, button);
-                button.classList.remove("_hold");
-            } else {
-                alert("something went wrong...");
-            }
-        }
-    }
-
-    function loadProducts(data, button) {
-        if (count >= data.products.length) {
-            button.classList.add("_blocked");
-            return;
-        }
-        let cycleCount = 0;
-        for (let arrCount = count; arrCount < count + 4; arrCount++) {
-            let item = data.products[arrCount];
-            //---------------
-
-            const productId = item.id;
-            const productImage = item.image;
-            const productTitle = item.title;
-            const productText = item.text;
-            const productPrice = item.price;
-            const productOldPrice = item.priceOld;
-            const productShareUrl = item.shareUrl;
-            const productLabels = item.labels;
-
-            let productTemplateStart = `<div data-prodid="${productId}" class="products__product product">`;
-            let productTemplateEnd = `</div>`;
-
-            let productTemplateLabels = "";
-            if (productLabels) {
-                let productTemplateLabelsStart = `<div class="product__labels">`;
-                let productTemplateLabelsEnd = `</div>`;
-                let productTemplateLabelsContent = "";
-
-                productLabels.forEach((labelItem) => {
-                    productTemplateLabelsContent += `<div class="product__label product__label_${labelItem.type}">${labelItem.value}</div>`;
-                });
-
-                productTemplateLabels += productTemplateLabelsStart;
-                productTemplateLabels += productTemplateLabelsContent;
-                productTemplateLabels += productTemplateLabelsEnd;
-            }
-
-            let productTemplateImage = `
-            <img class="product__image" src="${productImage}" alt="${productTitle}" />
-            `;
-
-            let productTemplateContent = "";
-            let productTemplateContentStart = `<div class="product__content">`;
-            let productTemplateContentEnd = `</div>`;
-            let productTemplateContentBody = `
-            <a href="" class="product__title">${productTitle}</a>
-            <span class="product__description">${productText}</span>
-	        `;
-
-            let productTemplatePrices = "";
-            let productTemplatePricesStart = `<div class="product__prices">`;
-            let productTemplatePricesCurrent = `<span class="product__price">Rp ${productPrice}</span>`;
-            let productTemplatePricesOld = `<span class="product__old-price">Rp ${productOldPrice}</span>`;
-            let productTemplatePricesEnd = `</div>`;
-
-            productTemplatePrices = productTemplatePricesStart;
-            productTemplatePrices += productTemplatePricesCurrent;
-            if (productOldPrice) {
-                productTemplatePrices += productTemplatePricesOld;
-            }
-            productTemplatePrices += productTemplatePricesEnd;
-
-            productTemplateContent += productTemplateContentStart;
-            productTemplateContent += productTemplateContentBody;
-            productTemplateContent += productTemplatePrices;
-            productTemplateContent += productTemplateContentEnd;
-
-            let productTemplatePopup = `
-            <div class="product__popup popup-product">
-                <div class="popup-product__actions">
-                    <a href="" class="popup-product__button">Add to cart</a>
-                    <a href="${productShareUrl}" class="popup-product__link">
-                        <svg class="popup-product__icon popup-product__icon_share">
-                            <use xlink:href="#share"></use>
-                        </svg>
-                        <span class="popup-product__text">Share</span>
-                    </a>
-                    <button class="popup-product__like-button">
-                        <svg class="popup-product__icon popup-product__icon_like">
-                            <use xlink:href="#favorite"></use>
-                        </svg>
-                        <span class="popup-product__text">Like</span>
-                    </button>
-                </div>
-            </div>
-	    `;
-
-            let productTemplateBody = "";
-            productTemplateBody += productTemplateContent;
-            productTemplateBody += productTemplatePopup;
-
-            let productTemplate = "";
-            productTemplate += productTemplateStart;
-            productTemplate += productTemplateLabels;
-            productTemplate += productTemplateImage;
-            productTemplate += productTemplateBody;
-            productTemplate += productTemplateEnd;
-
-            productsItems.insertAdjacentHTML("beforeend", productTemplate);
-            //----------------
-
-            cycleCount++;
-            if (count + cycleCount >= data.products.length) {
-                count += cycleCount;
-                button.classList.add("_blocked");
-                return;
-            }
-        }
-        count += cycleCount;
-    }
-
-    function closeCart() {
-        cart.classList.remove("_active");
-        cart.classList.remove("_opened");
-        cartQuantity.style.opacity = "0";
-        cartQuantity.style.visibility = "hidden";
-    }
-
-    //попап при нажатии на мобильных устройствах
-    productsItems.addEventListener("click", (event) => {
-        const targetElement = event.target,
-            activeProduct = document.querySelector(".product._active");
-
-        if (targetElement.closest(".product") && !targetElement.classList.contains("product__title")) {
-            if (activeProduct != null) activeProduct.classList.remove("_active");
-            targetElement.closest(".product").classList.add("_active");
-        }
-    })
-
-    document.addEventListener("click", (event) => {
-        const targetElement = event.target,
-            activeProduct = document.querySelector(".product._active");
-        if (!targetElement.closest(".product._active") && activeProduct != null) {
-            activeProduct.classList.remove("_active");
-        }
-    });
-
-
-    //добавление товаров в корзину
-    const cart = document.querySelector(".actions__item.cart");
-    const cartQuantity = cart.querySelector("span");
-    const cartList = cart.querySelector(".cart__list");
-    let cartProductsCount = +cartQuantity.innerHTML;
-
-    productsSection.addEventListener("click", (event) => {
-        const targetElement = event.target;
-
-        if (targetElement.closest(".popup-product__button")) {
-            let product = targetElement.closest(".product");
-
-            if (product.classList.contains("_added")) {
-                const itemID = product.dataset.prodid;
-                const cartListItem = document.querySelector(`.item-cart[data-prodid="${itemID}"]`);
-                let cartListItemCounter = cartListItem.querySelector(".quantity-cart__counter").innerHTML;
-                cartListItem.querySelector(".quantity-cart__counter").innerHTML = ++cartListItemCounter;
-                cartProductsCount++;
-            } else {
-                product.classList.add("_added");
-                //cоздаю копию продукта
-
-                let productCart = document.createElement("li");
-                productCart.dataset.prodid = product.dataset.prodid;
-                productCart.className = "cart__item item-cart";
-
-                productCart.insertAdjacentHTML(
-                    "afterBegin",
-                    `
-                <img class="item-cart__image" src="${product.querySelector(".product__image").getAttribute("src")}" alt="">
-                <h2 class="item-cart__title">${product.querySelector(".product__title").innerHTML}</h2>
-                <span class="item-cart__price">${product.querySelector(".product__price").innerHTML}</span>
-                <div class="item-cart__quantity quantity-cart">
-                <button class="quantity-cart__button quantity-cart__button_minus">-</button>
-                <span class="quantity-cart__counter">1</span>
-                <button class="quantity-cart__button quantity-cart__button_plus">+</button>
-                </div>
-                <button class="item-cart__delete-button">
-                    <svg class="item-cart__icon">
-                        <use xlink:href="#delete"></use>
-                    </svg>
-                </button>
-                `
-                );
-
-                cartList.append(productCart);
-
-                cartProductsCount++;
-            }
-
-            //делаю корзину активной
-            if (!cart.classList.contains("_active")) {
-                cart.classList.add("_active");
-                cartQuantity.style.opacity = "1";
-                cartQuantity.style.visibility = "visible";
-            }
-
-            if (cartProductsCount > 99) {
-                cartQuantity.innerHTML = "99+";
-                cartQuantity.style.height = "20px";
-                cartQuantity.style.width = "20px";
-            } else {
-                cartQuantity.innerHTML = `${cartProductsCount}`;
-                cartQuantity.style.height = "16px";
-                cartQuantity.style.width = "16px";
-            }
-        }
-    });
-
-    //изменение количества товаров в корзине на +-
-    cartList.addEventListener("click", (event) => {
-        const targetElement = event.target;
-
-        if (event.target.classList.contains("quantity-cart__button_minus")) {
-            let counter = targetElement.nextElementSibling.innerHTML;
-            if (counter > 1) {
-                targetElement.nextElementSibling.innerHTML = --counter;
-                cartProductsCount--;
-            } else {
-                event.preventDefault();
-
-                const itemID = targetElement.closest(".item-cart").dataset.prodid;
-                const product = document.querySelector(`.product[data-prodid="${itemID}"]`);
-                product.classList.remove("_added");
-
-                targetElement.closest(".item-cart").remove();
-                cartProductsCount--;
-            }
-        }
-
-        if (event.target.classList.contains("quantity-cart__button_plus")) {
-            let counter = targetElement.previousElementSibling.innerHTML;
-            targetElement.previousElementSibling.innerHTML = ++counter;
-            cartProductsCount++;
-        }
-
-        if (cartProductsCount > 99) {
-            cartQuantity.innerHTML = "99+";
-            cartQuantity.style.height = "20px";
-            cartQuantity.style.width = "20px";
-        } else {
-            cartQuantity.innerHTML = `${cartProductsCount}`;
-            cartQuantity.style.height = "16px";
-            cartQuantity.style.width = "16px";
-        }
-
-        if (cartProductsCount < 1) closeCart();
-    });
-
-    //удаление одного товара из корзины
-    header.addEventListener("click", (event) => {
-        const targetElement = event.target;
-
-        if (targetElement.closest(".item-cart__delete-button")) {
-            event.preventDefault();
-
-            let counter = targetElement.closest(".item-cart").querySelector(".quantity-cart__counter").innerHTML;
-            const itemID = targetElement.closest(".item-cart").dataset.prodid;
-            const product = document.querySelector(`.product[data-prodid="${itemID}"]`);
-            product.classList.remove("_added");
-
-            cartProductsCount -= counter;
-            targetElement.closest(".item-cart").remove();
-
-            cartQuantity.innerHTML = `${cartProductsCount}`;
-            if (cartProductsCount < 1) closeCart();
-        }
-    });
-
-    //удаление всех товаров из корзины
-    header.addEventListener("click", (event) => {
-        const targetElement = event.target;
-        const cartPopup = document.querySelector(".cart__delete-popup");
-        const deleteButton = document.querySelector(".cart__delete-popup-button_yes");
-        const cancelButton = document.querySelector(".cart__delete-popup-button_no");
-
-        if (targetElement.classList.contains("cart__delete-button")) {
-            cartPopup.classList.add("_active");
-
-            deleteButton.onclick = () => {
-                document.querySelectorAll(".product._added").forEach((element) => {
-                    element.classList.remove("_added");
-                });
-
-                // event.preventDefault();
-                targetElement.previousElementSibling.innerHTML = "";
-
-                cartProductsCount = 0;
-                closeCart();
-                cartPopup.classList.remove("_active");
-            };
-
-            cancelButton.onclick = () => {
-                cartPopup.classList.remove("_active");
-            };
-        }
-    });
-
-    //открытие/закрытие корзины
-    header.addEventListener("click", (event) => {
-        const targetElement = event.target;
-
-        if ((targetElement.closest(".cart__icon") || targetElement.closest(".search-form")) && cart.classList.contains("_opened")) {
-            cart.classList.remove("_opened");
-        } else if (targetElement.closest(".cart__icon") && !cart.classList.contains("_opened") && cart.classList.contains("_active"))
-            cart.classList.add("_opened");
-    });
-
-    //------------------------------- FOOTER ------------------------------------//
-
-    //\\ JQUERY //\\
-
-    //спойлеры в футере на <576px
-    $(".footer__title").click(function () {
-        if (document.documentElement.clientWidth <= 576) {
-            $(this).next(".footer__list").slideToggle();
-            $(this).parent().toggleClass("_active");
-        }
-    });
-
-    $(window).resize(function () {
-        //делаю видимыми свернутые спойлеры и убираю их при изменении разрешения
-        //меню в футере
-        if (document.documentElement.clientWidth > 576) {
-            $(".footer__list").css("display", "block");
-            if ($(".footer__block").hasClass("_active")) {
-                $(".footer__block").removeClass("_active");
-            }
-        }
-        if (document.documentElement.clientWidth < 576) {
-            if (!$(".footer__block").hasClass("_active")) {
-                $(".footer__list").css("display", "none");
-            }
-        }
-
-        // if (document.documentElement.clientWidth < 800) {
-        //     // $(".controls-slider-rooms__dots").css('left', `${}`);
-        //     const dots = document.querySelector(".controls-slider-rooms__dots");
-        //     dots.style.left = `calc(50% - ${getComputedStyle(dots).width} / 2 + 31px)`;
-        // }
-
-        // if (document.documentElement.clientWidth > 800) {
-        //     // $(".controls-slider-rooms__dots").css('left', `${}`);
-        //     const dots = document.querySelector(".controls-slider-rooms__dots");
-        //     dots.style.left = "";
-        // }
     });
 });
+//\\ JQUERY //\\
+
+//спойлеры в футере на <576px
+$(".footer__title").click(function () {
+    if (document.documentElement.clientWidth <= 576) {
+        $(this).next(".footer__list").slideToggle();
+        $(this).parent().toggleClass("_active");
+    }
+});
+
+$(window).resize(function () {
+    //делаю видимыми свернутые спойлеры и убираю их при изменении разрешения
+    //меню в футере
+    if (document.documentElement.clientWidth > 576) {
+        $(".footer__list").css("display", "block");
+        if ($(".footer__block").hasClass("_active")) {
+            $(".footer__block").removeClass("_active");
+        }
+    }
+    if (document.documentElement.clientWidth < 576) {
+        if (!$(".footer__block").hasClass("_active")) {
+            $(".footer__list").css("display", "none");
+        }
+    }
+});;
