@@ -11,5 +11,5 @@ ____
 - JavaScript
 - Gulp
 ____
-Макет: https://www.figma.com/file/NZQt4oeNzzMxOduAzpXcRt/1
-Результат: https://datfeela.github.io/funiro/
+- Макет: https://www.figma.com/file/NZQt4oeNzzMxOduAzpXcRt/1
+- Результат: https://datfeela.github.io/funiro/
